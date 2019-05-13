@@ -23,4 +23,6 @@ public class FileBeatProperties {
 	private String version;
 	private String linuxDownloadUrl;
 	private String downloadFilename;
+	private String fileBeatExecutablePath;
+	private String fileBeatConfigPath;
 }
