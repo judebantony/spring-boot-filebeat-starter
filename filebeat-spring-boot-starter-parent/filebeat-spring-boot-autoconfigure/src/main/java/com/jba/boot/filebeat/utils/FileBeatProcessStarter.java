@@ -7,9 +7,6 @@ import java.lang.reflect.Field;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
-
-import com.jba.boot.filebeat.autoconfigure.FileBeatProperties;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,11 +14,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class FileBeatProcessStarter {
 
-	@Autowired
-	private FileBeatProperties fileBeatProperties;
 
 	@Autowired
 	private FileBeatDownloader fileBeatDownloader;
+
+	@Autowired
+	private FileBeatConfigGenerator fileBeatConfigGenerator;
 
 	public String startFileBeat() throws FileNotFoundException, IOException {
 		String pid = null;
@@ -29,19 +27,13 @@ public class FileBeatProcessStarter {
 			StringBuilder fileBeatExecuatble = new StringBuilder();
 			fileBeatExecuatble.append(fileBeatDownloader.getInstallPath()).append(File.pathSeparator)
 					.append(FileBeatStarterConstants.FILEBEAT_BIN).append(File.pathSeparator)
-					.append(FileBeatStarterConstants.FILEBEAT_EXE).append(FileBeatStarterConstants.FILEBEAT_PARAMETER);
-			if (StringUtils.hasText(fileBeatProperties.getFileBeatConfigPath())) {
-				fileBeatExecuatble.append(fileBeatProperties.getFileBeatConfigPath());
-			} else {
-				fileBeatExecuatble.append(fileBeatDownloader.getInstallPath());
-			}
-			fileBeatExecuatble.append(File.pathSeparator).append(FileBeatStarterConstants.FILEBEAT_CONF)
-					.append(File.pathSeparator).append(FileBeatStarterConstants.FILEBEAT_FILE)
+					.append(FileBeatStarterConstants.FILEBEAT_EXE).append(FileBeatStarterConstants.FILEBEAT_PARAMETER)
+					.append(fileBeatConfigGenerator.getFileBeatConfigPath())
 					.append(FileBeatStarterConstants.FILEBEAT_DEMON_PARAMETER);
 			log.debug("Filebeat Run Command :: {}", fileBeatExecuatble.toString());
 			Process process = Runtime.getRuntime().exec(fileBeatExecuatble.toString());
 			pid = getPidOfProcess(process);
-			log.debug("Filebeat is started! pid = {}",pid);
+			log.debug("Filebeat is started! pid = {}", pid);
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}

@@ -33,7 +33,6 @@ public class FileBeatDownloader {
 	public void downloadFileBeat() throws IOException {
 		if (!this.isFileBeatInstalled()) {
 			URL url = new URL(fileBeatProperties.getLinuxDownloadUrl());
-
 			try (ReadableByteChannel readableByteChannel = Channels.newChannel(url.openStream());
 					FileOutputStream fileOutputStream = new FileOutputStream(getDownloadFileName());
 					FileChannel fileChannel = fileOutputStream.getChannel()) {
@@ -45,8 +44,8 @@ public class FileBeatDownloader {
 	}
 
 	public boolean isFileBeatInstalled() {
-		File dir = new File(getInstallPath());
-		return dir.exists();
+		File insatllDir = new File(getInstallPath());
+		return insatllDir.exists();
 	}
 
 	public String getDownloadFileName() {
@@ -59,8 +58,8 @@ public class FileBeatDownloader {
 
 	public String getInstallBasePath() {
 		StringBuilder installPath = new StringBuilder();
-		if (StringUtils.hasText(fileBeatProperties.getFileBeatInstalledPath())) {
-			installPath.append(fileBeatProperties.getFileBeatInstalledPath());
+		if (StringUtils.hasText(fileBeatProperties.getFileBeatInstalledBaseDir())) {
+			installPath.append(fileBeatProperties.getFileBeatInstalledBaseDir());
 		} else {
 			installPath.append(System.getProperty(FileBeatStarterConstants.CURRENT_DIR));
 		}

@@ -13,7 +13,7 @@ public interface FileBeatStarterConstants {
 	String FILEBEAT_BIN = "bin";
 	String FILEBEAT_CONF = "conf";
 	String FILEBEAT_EXE = "filebeat";
-	String FILEBEAT_FILE = "filebeat.yml";
+	String FILEBEAT_CONFIG_FILE = "filebeat.yml";
 	String FILEBEAT_PARAMETER = " -c ";
 	String FILEBEAT_DEMON_PARAMETER = " -e ";
 	String UNIX_PROCESS = "java.lang.UNIXProcess";

@@ -24,6 +24,6 @@ public class FileBeatProperties {
 	private String osVersion;
 	private String linuxDownloadUrl;
 	private String downloadFilename;
-	private String fileBeatInstalledPath;
-	private String fileBeatConfigPath;
+	private String fileBeatInstalledBaseDir;
+	private String fileBeatConfigDir;
 }

@@ -10,11 +10,14 @@ import com.jba.boot.filebeat.utils.FileBeatDownloader;
 import com.jba.boot.filebeat.utils.FileBeatInstaller;
 import com.jba.boot.filebeat.utils.FileBeatProcessStarter;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * @author Jude
  *
  */
 @Component
+@Slf4j
 public class FileBeatStarterTemplate {
 
 	@Autowired
@@ -36,6 +39,7 @@ public class FileBeatStarterTemplate {
 					fileBeatProcessContext.getProcessId(), fileBeatProcessContext.getLogFile());
 			fileBeatProcessContext.setMessage(message);
 		} catch (Exception e) {
+			log.error(e.getMessage());
 			String message = String.format("Fail to start or install Filebeat %s", e.getMessage());
 			fileBeatProcessContext.setMessage(message);
 		}
