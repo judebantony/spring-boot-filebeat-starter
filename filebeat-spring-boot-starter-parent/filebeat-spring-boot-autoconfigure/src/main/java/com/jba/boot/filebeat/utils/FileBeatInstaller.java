@@ -12,33 +12,38 @@ import org.apache.commons.compress.utils.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.jba.boot.filebeat.autoconfigure.FileBeatProperties;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
+@Slf4j
 public class FileBeatInstaller {
 
 	@Autowired
-	private FileBeatProperties fileBeatProperties;
+	private FileBeatDownloader fileBeatDownloader;
 
 	public void installFileBeat() throws FileNotFoundException, IOException {
-		StringBuilder downloadFileName = new StringBuilder()
-				.append(System.getProperty(FileBeatStarterConstants.CURRENT_DIR))
-				.append(fileBeatProperties.getDownloadFilename());
-
-		try (TarArchiveInputStream fin = new TarArchiveInputStream(new FileInputStream(downloadFileName.toString()))) {
-			TarArchiveEntry entry;
-			while ((entry = fin.getNextTarEntry()) != null) {
-				if (entry.isDirectory()) {
-					continue;
+		if (!fileBeatDownloader.isFileBeatInstalled()) {
+			String installPath = fileBeatDownloader.getInstallBasePath();
+			try (TarArchiveInputStream fin = new TarArchiveInputStream(
+					new FileInputStream(fileBeatDownloader.getDownloadFileName()))) {
+				TarArchiveEntry entry;
+				while ((entry = fin.getNextTarEntry()) != null) {
+					if (entry.isDirectory()) {
+						continue;
+					}
+					File curfile = new File(installPath, entry.getName());
+					File parent = curfile.getParentFile();
+					if (!parent.exists()) {
+						parent.mkdirs();
+					}
+					IOUtils.copy(fin, new FileOutputStream(curfile));
 				}
-				File curfile = new File(System.getProperty(FileBeatStarterConstants.CURRENT_DIR), entry.getName());
-				File parent = curfile.getParentFile();
-				if (!parent.exists()) {
-					parent.mkdirs();
-				}
-				IOUtils.copy(fin, new FileOutputStream(curfile));
 			}
+			log.debug("Filebeat is installed!");
+			File downloadFile = new File(fileBeatDownloader.getDownloadFileName()); 
+			downloadFile.delete();
 		}
 	}
-	
+
+
 }

@@ -21,8 +21,9 @@ import lombok.Data;
 @Data
 public class FileBeatProperties {
 	private String version;
+	private String osVersion;
 	private String linuxDownloadUrl;
 	private String downloadFilename;
-	private String fileBeatExecutablePath;
+	private String fileBeatInstalledPath;
 	private String fileBeatConfigPath;
 }
