@@ -6,6 +6,7 @@ package com.jba.boot.filebeat.starter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.jba.boot.filebeat.utils.FileBeatConfigGenerator;
 import com.jba.boot.filebeat.utils.FileBeatDownloader;
 import com.jba.boot.filebeat.utils.FileBeatInstaller;
 import com.jba.boot.filebeat.utils.FileBeatProcessStarter;
@@ -25,7 +26,10 @@ public class FileBeatStarterTemplate {
 
 	@Autowired
 	private FileBeatInstaller fileBeatInstaller;
-
+	
+	@Autowired
+	private FileBeatConfigGenerator fileBeatConfigGenerator;
+	
 	@Autowired
 	private FileBeatProcessStarter fileBeatProcessStarter;
 
@@ -34,6 +38,7 @@ public class FileBeatStarterTemplate {
 		try {
 			fileBeatDownloader.downloadFileBeat();
 			fileBeatInstaller.installFileBeat();
+			fileBeatConfigGenerator.createFileBeatConfig();
 			fileBeatProcessContext.setProcessId(fileBeatProcessStarter.startFileBeat());
 			String message = String.format("Filebeat Stated with pid = %s and processing the log file %s",
 					fileBeatProcessContext.getProcessId(), fileBeatProcessContext.getLogFile());

@@ -4,12 +4,19 @@
 package com.jba.boot.filebeat.utils;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.jba.boot.filebeat.autoconfigure.FileBeatProperties;
+import com.jba.boot.filebeat.model.FileBeatConfig;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,9 +34,24 @@ public class FileBeatConfigGenerator {
 	@Autowired
 	private FileBeatDownloader fileBeatDownloader;
 
+	Function<FileBeatProperties, FileBeatConfig> convertToYml = (properties) -> {
+		FileBeatConfig objFileBeatConfig = new FileBeatConfig();
+		// TODO :: need to write the logic to convert.
+		return objFileBeatConfig;
+	};
+
 	public void createFileBeatConfig() {
-		if(!isFileBeatConfigAlreadyPresent()) {
-			
+		if (!isFileBeatConfigAlreadyPresent()) {
+			ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+			try {
+				String fileBeatYml = mapper.writeValueAsString(convertToYml.apply(fileBeatProperties));
+				log.debug("filbeat config file {} ",fileBeatYml);
+				if(StringUtils.hasText(fileBeatYml)){
+					Files.write(Paths.get(getFileBeatConfigPath()), fileBeatYml.getBytes());
+				}
+			} catch (IOException e) {
+				log.error(e.getMessage());
+			}
 		}
 	}
 
