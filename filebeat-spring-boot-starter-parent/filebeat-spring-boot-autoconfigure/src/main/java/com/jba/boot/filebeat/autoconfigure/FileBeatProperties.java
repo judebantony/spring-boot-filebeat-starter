@@ -32,6 +32,7 @@ public class FileBeatProperties {
 	private FileBeatOutputLogstashProperties outputLogstash;
 	private FileBeatOutputFileProperties outputFile;
 	private FileBeatOutputConsoleProperties outputConsole;
+	private FileBeatOutputRedisProperties outputRedis;
 	private boolean seccompEnabled = true;
 	private boolean httpEnabled;
 	private String httpHost;
