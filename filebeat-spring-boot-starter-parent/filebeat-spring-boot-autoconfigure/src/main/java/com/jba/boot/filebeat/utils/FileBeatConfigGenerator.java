@@ -39,6 +39,9 @@ public class FileBeatConfigGenerator {
 	@Autowired
 	private FileBeatDownloader fileBeatDownloader;
 
+	@Autowired
+	private FileBeatConfigValidator fileBeatConfigValidator;
+
 	Function<FileBeatProperties, FileBeatConfig> convertToYml = (properties) -> {
 		FileBeatConfig objFileBeatConfig = new FileBeatConfig();
 		if (null != properties) {
@@ -51,10 +54,13 @@ public class FileBeatConfigGenerator {
 		if (!isFileBeatConfigAlreadyPresent()) {
 			ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
 			try {
-				String fileBeatYml = mapper.writeValueAsString(convertToYml.apply(fileBeatProperties));
-				log.debug("filbeat config file {} ", fileBeatYml);
-				if (StringUtils.hasText(fileBeatYml)) {
-					Files.write(Paths.get(getFileBeatConfigPath()), fileBeatYml.getBytes());
+				FileBeatConfig fileBeatConfig = convertToYml.apply(fileBeatProperties);
+				if (fileBeatConfigValidator.validateFileBeatConfig(fileBeatConfig)) {
+					String fileBeatYml = mapper.writeValueAsString(fileBeatConfig);
+					log.debug("filbeat config file {} ", fileBeatYml);
+					if (StringUtils.hasText(fileBeatYml)) {
+						Files.write(Paths.get(getFileBeatConfigPath()), fileBeatYml.getBytes());
+					}
 				}
 			} catch (IOException e) {
 				log.error(e.getMessage());
