@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import com.jba.boot.filebeat.autoconfigure.FileBeatProperties;
+import com.jba.boot.filebeat.autoconfigure.FileBeatStarterProperties;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 public class FileBeatDownloader {
 
 	@Autowired
-	private FileBeatProperties fileBeatProperties;
+	private FileBeatStarterProperties fileBeatProperties;
 
 	public void downloadFileBeat() throws IOException {
 		if (!this.isFileBeatInstalled()) {

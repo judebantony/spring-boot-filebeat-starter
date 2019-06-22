@@ -18,7 +18,7 @@ import lombok.ToString;
 @Data
 @ToString
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class FilebeatInputs {
+public class FileBeatInputs {
 
 	@JsonProperty("type")
 	private String type;

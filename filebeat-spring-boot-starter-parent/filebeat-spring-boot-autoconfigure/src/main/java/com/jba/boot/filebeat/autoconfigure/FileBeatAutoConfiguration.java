@@ -22,7 +22,7 @@ import com.jba.boot.filebeat.utils.FileBeatProcessStarter;
  */
 @Configuration
 @ConditionalOnClass({ FileBeatDownloader.class, FileBeatInstaller.class, FileBeatProcessStarter.class })
-@EnableConfigurationProperties(FileBeatProperties.class)
+@EnableConfigurationProperties(FileBeatStarterProperties.class)
 public class FileBeatAutoConfiguration {
 
 	@Autowired

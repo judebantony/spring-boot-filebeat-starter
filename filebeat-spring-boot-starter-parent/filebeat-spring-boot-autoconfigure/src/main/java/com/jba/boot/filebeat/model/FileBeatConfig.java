@@ -20,7 +20,7 @@ import lombok.ToString;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class FileBeatConfig {
 	@JsonProperty("filebeat.inputs")
-	private FilebeatInputs inputs;
+	private FileBeatInputs inputs;
 	@JsonProperty("filebeat.config.modules")
 	private Map<String, String> configModules;
 	@JsonProperty("setup.template.settings")

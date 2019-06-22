@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.function.Function;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -16,6 +17,7 @@ import org.springframework.util.StringUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.jba.boot.filebeat.autoconfigure.FileBeatProperties;
+import com.jba.boot.filebeat.autoconfigure.FileBeatStarterProperties;
 import com.jba.boot.filebeat.model.FileBeatConfig;
 
 import lombok.extern.slf4j.Slf4j;
@@ -32,11 +34,16 @@ public class FileBeatConfigGenerator {
 	private FileBeatProperties fileBeatProperties;
 
 	@Autowired
+	private FileBeatStarterProperties fileBeatStarterProperties;
+
+	@Autowired
 	private FileBeatDownloader fileBeatDownloader;
 
 	Function<FileBeatProperties, FileBeatConfig> convertToYml = (properties) -> {
 		FileBeatConfig objFileBeatConfig = new FileBeatConfig();
-		// TODO :: need to write the logic to convert.
+		if (null != properties) {
+			BeanUtils.copyProperties(objFileBeatConfig, properties);
+		}
 		return objFileBeatConfig;
 	};
 
@@ -45,8 +52,8 @@ public class FileBeatConfigGenerator {
 			ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
 			try {
 				String fileBeatYml = mapper.writeValueAsString(convertToYml.apply(fileBeatProperties));
-				log.debug("filbeat config file {} ",fileBeatYml);
-				if(StringUtils.hasText(fileBeatYml)){
+				log.debug("filbeat config file {} ", fileBeatYml);
+				if (StringUtils.hasText(fileBeatYml)) {
 					Files.write(Paths.get(getFileBeatConfigPath()), fileBeatYml.getBytes());
 				}
 			} catch (IOException e) {
@@ -56,7 +63,7 @@ public class FileBeatConfigGenerator {
 	}
 
 	public String getFileBeatConfigPath() {
-		if (StringUtils.hasText(fileBeatProperties.getFileBeatConfigDir())) {
+		if (StringUtils.hasText(fileBeatStarterProperties.getFileBeatConfigDir())) {
 			File configDir = new File(getFileBeatConfigProvidedPath());
 			if (configDir.exists()) {
 				return getFileBeatConfigProvidedPath();
@@ -67,7 +74,7 @@ public class FileBeatConfigGenerator {
 
 	private boolean isFileBeatConfigAlreadyPresent() {
 		boolean isFileBeatConfigAlreadyPresent = false;
-		if (StringUtils.hasText(fileBeatProperties.getFileBeatConfigDir())) {
+		if (StringUtils.hasText(fileBeatStarterProperties.getFileBeatConfigDir())) {
 			File configDir = new File(getFileBeatConfigProvidedPath());
 			if (configDir.exists()) {
 				log.debug("Filebeat Config Path is already present :: ");
@@ -88,7 +95,7 @@ public class FileBeatConfigGenerator {
 
 	private String getFileBeatConfigProvidedPath() {
 		StringBuilder configPath = new StringBuilder();
-		configPath.append(fileBeatProperties.getFileBeatConfigDir()).append(File.pathSeparator)
+		configPath.append(fileBeatStarterProperties.getFileBeatConfigDir()).append(File.pathSeparator)
 				.append(FileBeatStarterConstants.FILEBEAT_CONFIG_FILE);
 		log.debug("Filebeat Config Path :: {}", configPath.toString());
 		return configPath.toString();
