@@ -3,6 +3,7 @@
  */
 package com.jba.boot.filebeat.autoconfigure;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.constraints.NotBlank;
@@ -23,10 +24,10 @@ public class FileBeatInputsProperties {
 	@NotBlank(message = "type is mandatory")
 	private String type;
 	private boolean enabled;
-	private String[] paths;
+	private List<String> paths;
 	private String excludeLines;
 	private String includeLines;
 	private String excludeFiles;
 	private Map<String, String> fields;
-
+	private Map<String, String> multiline;
 }

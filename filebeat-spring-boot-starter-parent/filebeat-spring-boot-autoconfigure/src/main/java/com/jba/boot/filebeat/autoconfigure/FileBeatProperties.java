@@ -22,7 +22,11 @@ public class FileBeatProperties {
 	private FileBeatInputsProperties inputs;
 	private Map<String, String> configModules;
 	private Map<String, String> templateSettings;
-	private Map<String, String> outputElasticsearch;
-	private Map<String, String> outputKafka;
+	private Map<String, String> setupKibana;
+	private Map<String, String> processors;
+	private Map<String, String> logging;
+	private FileBeatOutputElasticSearchProperties outputElasticSearch;
+	private FileBeatOutputKafkaProperties outputKafka;
+	private FileBeatOutputLogstashProperties outputLogstash;
 
 }
