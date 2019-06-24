@@ -33,6 +33,7 @@ public class FileBeatProperties {
 	private FileBeatOutputFileProperties outputFile;
 	private FileBeatOutputConsoleProperties outputConsole;
 	private FileBeatOutputRedisProperties outputRedis;
+	private FileBeatXpackMonitoringProperties xpackMonitoring;
 	private boolean seccompEnabled = true;
 	private boolean httpEnabled;
 	private String httpHost;
