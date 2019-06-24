@@ -25,9 +25,16 @@ public class FileBeatConfig {
 	private Map<String, String> configModules;
 	@JsonProperty("setup.template.settings")
 	private Map<String, String> templateSettings;
-	@JsonProperty("output.elasticsearch")
-	private Map<String, String> outputElasticsearch;
-	@JsonProperty("output.kafka")
-	private Map<String, String> outputKafka;
+	@JsonProperty("setup.kibana")
+	private Map<String, String> setupKibana;
+	@JsonProperty("processors")
+	private Map<String, String> processors;
+	@JsonProperty("logging")
+	private Map<String, String> logging;
+	@JsonProperty("path")
+	private Map<String, String> path;
+	@JsonProperty("setup.dashboards")
+	private Map<String, String> setup;
+
 
 }
