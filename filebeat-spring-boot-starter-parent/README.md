@@ -8,7 +8,7 @@ Filebeat Spring Boot Starter
 	
 	The main advantaged are :
 	1) Support for filebeat configarations 
-	2) Suport for pussing to Kafka,ElasticSearch,Radis,File and Console
+	2) Suport for pushing log to Kafka,ElasticSearch,Radis,File and Console
 	3) Currently support only Linux base OS.
 	
 	
