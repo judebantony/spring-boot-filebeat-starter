@@ -1,11 +1,11 @@
 /**
  * 
  */
-package com.jba.boot.filebeat.autoconfigure;
+package com.jba.boot.filebeat.model;
 
 import java.util.List;
 
-import org.springframework.validation.annotation.Validated;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
 import lombok.ToString;
@@ -16,8 +16,8 @@ import lombok.ToString;
  */
 @Data
 @ToString
-@Validated
-public class FileBeatOutputKafkaProperties {
+@JsonIgnoreProperties(ignoreUnknown=true)
+public class FileBeatOutputKafka {
 	private boolean enabled;
 	private List<String> hosts;
 	private String topic;
@@ -28,7 +28,8 @@ public class FileBeatOutputKafkaProperties {
 	private String username;
 	private String password;
 	private String version;
-	private FileBeatOutputCodecJsonProperties codec;
+	private boolean codecJsonPretty;
+	private boolean codecJsonEscapeHtml;
 	private Integer metadataRetryMax;
 	private String metadataRetryBackoff;
 	private String metadataRefreshFrequency;
@@ -44,6 +45,6 @@ public class FileBeatOutputKafkaProperties {
 	private Long maxMessageBytes;
 	private Integer requiredAcks;
 	private String clientId;
-	private FileBeatOutputSSLProperties ssl;
+	private FileBeatOutputSSL ssl;
 
 }

@@ -1,12 +1,12 @@
 /**
  * 
  */
-package com.jba.boot.filebeat.autoconfigure;
+package com.jba.boot.filebeat.model;
 
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.validation.annotation.Validated;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
 import lombok.ToString;
@@ -17,12 +17,13 @@ import lombok.ToString;
  */
 @Data
 @ToString
-@Validated
-public class FileBeatOutputRedisProperties {
+@JsonIgnoreProperties(ignoreUnknown=true)
+public class FileBeatOutputRedis {
 	private boolean enabled;
 	private List<String> hosts;
 	private String port;
-	private FileBeatOutputCodecJsonProperties codec;
+	private boolean codecJsonPretty;
+	private boolean codecJsonEscapeHtml;
 	private String key;
 	private String password;
 	private Integer db;
@@ -35,6 +36,6 @@ public class FileBeatOutputRedisProperties {
 	private Map<String, String> backoff;
 	private String proxyUrl;
 	private boolean proxyUseLocalResolver;
-	private FileBeatOutputSSLProperties ssl;
+	private FileBeatOutputSSL ssl;
 
 }

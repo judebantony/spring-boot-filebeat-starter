@@ -35,6 +35,9 @@ public class FileBeatConfig {
 	private Map<String, String> path;
 	@JsonProperty("setup.dashboards")
 	private Map<String, String> setup;
-
-
+	@JsonProperty("output.console")
+	private FileBeatOutputConsole outputConsole;
+	@JsonProperty("output.file")
+	private FileBeatOutputFile outputFile;
+	
 }

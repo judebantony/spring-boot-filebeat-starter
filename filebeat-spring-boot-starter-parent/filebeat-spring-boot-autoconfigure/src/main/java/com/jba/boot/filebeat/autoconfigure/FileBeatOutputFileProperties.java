@@ -17,12 +17,11 @@ import lombok.ToString;
 @Validated
 public class FileBeatOutputFileProperties {
 	private boolean enabled;
-	private boolean codecJsonPretty;
-	private boolean codecJsonEscapeHtml;
+	private FileBeatOutputCodecJsonProperties codec;
 	private String path;
 	private String filename;
-	private Long rotate_every_kb;
-	private Integer number_of_files;
+	private Long rotateEveryKb;
+	private Integer numberOfFiles;
 	private String permissions;
 
 }
