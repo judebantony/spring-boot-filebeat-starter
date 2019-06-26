@@ -4,6 +4,7 @@
 package com.jba.boot.filebeat.autoconfigure;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.validation.annotation.Validated;
 
@@ -21,17 +22,13 @@ public class FileBeatOutputKafkaProperties {
 	private boolean enabled;
 	private List<String> hosts;
 	private String topic;
-	private boolean partitionRoundRobinReachableOnly;
+	private FileBeatOutputPartitionHashProperties partition;
 	private String key;
-	private boolean partitionHashReachableOnly;
-	private List<String> partitionHash;
 	private String username;
 	private String password;
 	private String version;
 	private FileBeatOutputCodecJsonProperties codec;
-	private Integer metadataRetryMax;
-	private String metadataRetryBackoff;
-	private String metadataRefreshFrequency;
+	private Map<String, String> metadata;
 	private Integer worker;
 	private Integer bulkMaxSize;
 	private Integer maxRetries;

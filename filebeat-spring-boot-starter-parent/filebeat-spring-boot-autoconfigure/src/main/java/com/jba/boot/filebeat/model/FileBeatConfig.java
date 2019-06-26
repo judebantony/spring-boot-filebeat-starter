@@ -39,5 +39,14 @@ public class FileBeatConfig {
 	private FileBeatOutputConsole outputConsole;
 	@JsonProperty("output.file")
 	private FileBeatOutputFile outputFile;
+	@JsonProperty("output.elasticsearch")
+	private FileBeatOutputElasticSearch outputElasticSearch;
+	@JsonProperty("output.kafka")
+	private FileBeatOutputKafka outputKafka;
+	@JsonProperty("output.logstash")
+	private FileBeatOutputLogstash outputLogstash;
+	@JsonProperty("output.redis")
+	private FileBeatOutputRedis outputRedis;
+
 	
 }

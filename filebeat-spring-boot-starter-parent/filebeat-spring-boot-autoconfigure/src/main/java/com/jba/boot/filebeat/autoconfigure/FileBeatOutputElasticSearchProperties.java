@@ -34,7 +34,6 @@ public class FileBeatOutputElasticSearchProperties {
 	private Map<String, String> headers;
 	private FileBeatOutputSSLProperties ssl;
 	private String proxyUrl;
-	private boolean proxyUseLocalResolver;
 	private Integer maxRetries;
 	private Integer bulkMaxSize;
 	private Map<String, String> backoff;
