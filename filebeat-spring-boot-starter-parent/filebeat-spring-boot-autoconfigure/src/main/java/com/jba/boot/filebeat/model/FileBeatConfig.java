@@ -47,6 +47,14 @@ public class FileBeatConfig {
 	private FileBeatOutputLogstash outputLogstash;
 	@JsonProperty("output.redis")
 	private FileBeatOutputRedis outputRedis;
-
-	
+	@JsonProperty("xpack.monitoring")
+	private FileBeatXpackMonitoring xpackMonitoring;
+	@JsonProperty("seccomp.enabled")
+	private boolean seccompEnabled = true;
+	@JsonProperty("http.enabled")
+	private boolean httpEnabled;
+	@JsonProperty("http.host")
+	private String httpHost;
+	@JsonProperty("http.port")
+	private String httpPort;
 }
