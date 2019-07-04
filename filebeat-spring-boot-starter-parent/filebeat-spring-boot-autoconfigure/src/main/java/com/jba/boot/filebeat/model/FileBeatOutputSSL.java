@@ -6,6 +6,8 @@ package com.jba.boot.filebeat.model;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
@@ -18,6 +20,7 @@ import lombok.ToString;
 @Data
 @ToString
 @JsonIgnoreProperties(ignoreUnknown=true)
+@JsonInclude(Include.NON_NULL)
 public class FileBeatOutputSSL {
 	@JsonProperty("enabled")
 	private boolean enabled;
@@ -37,7 +40,7 @@ public class FileBeatOutputSSL {
 	private List<String> cipherSuites;
 	@JsonProperty("curve_types")
 	private List<String> curveTypes;
-	@JsonProperty("key")
+	@JsonProperty("renegotiation")
 	private String renegotiation;
 
 }

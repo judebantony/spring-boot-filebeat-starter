@@ -27,6 +27,7 @@
 	<modules>
 		<module>filebeat-spring-boot-starter</module>
 		<module>filebeat-spring-boot-autoconfigure</module>
+		<module>filebeat-spring-boot-starter-sample-app</module>
 	</modules>
 
 	<dependencyManagement>

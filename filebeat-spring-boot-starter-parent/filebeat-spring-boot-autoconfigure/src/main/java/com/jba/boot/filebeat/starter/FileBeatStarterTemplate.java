@@ -45,6 +45,11 @@ public class FileBeatStarterTemplate {
 				String message = String.format("Filebeat Stated with pid = %s and processing the log file %s",
 						fileBeatProcessContext.getProcessId(), fileBeatProcessContext.getLogFile());
 				fileBeatProcessContext.setMessage(message);
+			} else {
+				log.info("This OS is not supported for this starter {}", OSInfo.getOs());
+				//TODO :: testing :: need to remove later
+				fileBeatConfigGenerator.createFileBeatConfig();
+				//TODO :: End
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage());

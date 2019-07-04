@@ -39,7 +39,7 @@ public class FileBeatDownloader {
 				fileChannel.transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
 				fileOutputStream.close();
 			}
-			log.debug("Filebeat is downloaded!");
+			log.info("Filebeat is downloaded!");
 		}
 	}
 
@@ -51,8 +51,8 @@ public class FileBeatDownloader {
 	public String getDownloadFileName() {
 		StringBuilder downloadFileName = new StringBuilder();
 		downloadFileName.append(getInstallBasePath());
-		downloadFileName.append(File.pathSeparator).append(fileBeatProperties.getDownloadFilename());
-		log.debug("Filebeat Download File Name :: {}", downloadFileName.toString());
+		downloadFileName.append(File.separator).append(fileBeatProperties.getDownloadFilename());
+		log.info("Filebeat Download File Name :: {}", downloadFileName.toString());
 		return downloadFileName.toString();
 	}
 
@@ -63,17 +63,17 @@ public class FileBeatDownloader {
 		} else {
 			installPath.append(System.getProperty(FileBeatStarterConstants.CURRENT_DIR));
 		}
-		log.debug("Filebeat Install Base Path :: {}", installPath.toString());
+		log.info("Filebeat Install Base Path :: {}", installPath.toString());
 		return installPath.toString();
 	}
 
 	public String getInstallPath() {
 		StringBuilder installPath = new StringBuilder();
-		installPath.append(getInstallBasePath()).append(File.pathSeparator)
+		installPath.append(getInstallBasePath()).append(File.separator)
 				.append(FileBeatStarterConstants.FILEBEAT_DIR).append(FileBeatStarterConstants.FILEBEAT_SEPARATOR)
 				.append(fileBeatProperties.getVersion()).append(FileBeatStarterConstants.FILEBEAT_SEPARATOR)
 				.append(fileBeatProperties.getOsVersion());
-		log.debug("Filebeat Install Path :: {}", installPath.toString());
+		log.info("Filebeat Install Path :: {}", installPath.toString());
 		return installPath.toString();
 	}
 

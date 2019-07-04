@@ -1,0 +1,20 @@
+filebeat.prospectors:
+- type: log
+  enabled: true
+
+  # Paths that should be crawled and fetched. Glob based paths.
+  paths:
+    - /tmp/phronesis-service-registry-server.log
+    
+output.kafka:
+  enabled: true    
+  # initial brokers for reading cluster metadata
+  hosts: ["172.31.30.192:19092"]
+
+  # message topic selection + partitioning
+  topic: 'phronesis-service-registry-server-logs'
+  partition.round_robin:
+    reachable_only: false
+
+  required_acks: 1
+  max_message_bytes: 1000000

@@ -5,7 +5,7 @@ package com.jba.boot.filebeat.autoconfigure;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.PropertySources;
+import org.springframework.stereotype.Component;
 
 import lombok.Data;
 
@@ -13,11 +13,9 @@ import lombok.Data;
  * @author Jude
  *
  */
-@PropertySources({
-    @PropertySource("classpath:filebeatStarter.properties"),
-    @PropertySource(value="file:filebeatStarter.properties", ignoreResourceNotFound=true)
-})
-@ConfigurationProperties(prefix = "filebeat.starter")
+@Component
+@PropertySource("classpath:filebeatStarter.properties")
+@ConfigurationProperties(prefix = "filebeat-starter", ignoreInvalidFields = true)
 @Data
 public class FileBeatStarterProperties {
 	private String version;

@@ -25,15 +25,15 @@ public class FileBeatProcessStarter {
 		String pid = null;
 		try {
 			StringBuilder fileBeatExecuatble = new StringBuilder();
-			fileBeatExecuatble.append(fileBeatDownloader.getInstallPath()).append(File.pathSeparator)
-					.append(FileBeatStarterConstants.FILEBEAT_BIN).append(File.pathSeparator)
+			fileBeatExecuatble.append(fileBeatDownloader.getInstallPath()).append(File.separator)
+					.append(FileBeatStarterConstants.FILEBEAT_BIN).append(File.separator)
 					.append(FileBeatStarterConstants.FILEBEAT_EXE).append(FileBeatStarterConstants.FILEBEAT_PARAMETER)
 					.append(fileBeatConfigGenerator.getFileBeatConfigPath())
 					.append(FileBeatStarterConstants.FILEBEAT_DEMON_PARAMETER);
-			log.debug("Filebeat Run Command :: {}", fileBeatExecuatble.toString());
+			log.info("Filebeat Run Command :: {}", fileBeatExecuatble.toString());
 			Process process = Runtime.getRuntime().exec(fileBeatExecuatble.toString());
 			pid = getPidOfProcess(process);
-			log.debug("Filebeat is started! pid = {}", pid);
+			log.info("Filebeat is started! pid = {}", pid);
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}

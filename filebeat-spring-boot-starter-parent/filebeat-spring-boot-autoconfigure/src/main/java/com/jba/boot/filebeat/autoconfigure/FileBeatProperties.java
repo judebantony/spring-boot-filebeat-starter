@@ -6,6 +6,7 @@ package com.jba.boot.filebeat.autoconfigure;
 import java.util.Map;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
 import lombok.Data;
@@ -14,7 +15,7 @@ import lombok.Data;
  * @author Jude
  *
  */
-
+@Component
 @ConfigurationProperties(prefix = "filebeat")
 @Data
 @Validated
