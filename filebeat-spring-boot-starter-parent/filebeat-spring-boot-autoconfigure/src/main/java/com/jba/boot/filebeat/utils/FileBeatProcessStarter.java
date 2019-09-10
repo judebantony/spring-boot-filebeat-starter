@@ -41,8 +41,7 @@ public class FileBeatProcessStarter {
 				pid = getPidOfProcess(process);
 				log.info("Filebeat is started! pid = {}", pid);
 			} else if (os == OS.WINDOWS) {
-				fileBeatExecuatble.append(FileBeatStarterConstants.FILEBEAT_BIN).append(File.separator)
-						.append(FileBeatStarterConstants.FILEBEAT_WINDOWS_EXE).append(FileBeatStarterConstants.SPACE)
+				fileBeatExecuatble.append(FileBeatStarterConstants.FILEBEAT_WINDOWS_EXE).append(FileBeatStarterConstants.SPACE)
 						.append(fileBeatConfigGenerator.getFileBeatConfigPath(os));
 				log.info("Filebeat Run Command :: {}", fileBeatExecuatble.toString());
 				Process process = Runtime.getRuntime().exec(fileBeatExecuatble.toString(), null,
