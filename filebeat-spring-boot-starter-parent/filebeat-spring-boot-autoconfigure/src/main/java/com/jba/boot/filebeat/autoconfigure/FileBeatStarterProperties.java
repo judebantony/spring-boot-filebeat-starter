@@ -19,9 +19,15 @@ import lombok.Data;
 @Data
 public class FileBeatStarterProperties {
 	private String version;
-	private String osVersion;
+	private String linuxVersion;
+	private String windowsVersion;
+	private String macVersion;
 	private String linuxDownloadUrl;
-	private String downloadFilename;
+	private String windowsDownloadUrl;
+	private String macDownloadUrl;
+	private String linuxDownloadFilename;
+	private String windowsDownloadFilename;
+	private String macDownloadFilename;
 	private String fileBeatInstalledBaseDir;
 	private String fileBeatConfigDir;
 }

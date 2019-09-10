@@ -13,9 +13,14 @@ public interface FileBeatStarterConstants {
 	String FILEBEAT_BIN = "bin";
 	String FILEBEAT_CONF = "conf";
 	String FILEBEAT_EXE = "filebeat";
+	String FILEBEAT_WINDOWS_EXE = "filebeat.exe";
 	String FILEBEAT_CONFIG_FILE = "filebeat.yml";
 	String FILEBEAT_PARAMETER = " -c ";
 	String FILEBEAT_DEMON_PARAMETER = " -e ";
 	String UNIX_PROCESS = "java.lang.UNIXProcess";
+	String WINDOWS_PROCESS = "java.lang.Win32Process";
+	String PROCESS ="java.lang.ProcessImpl";
 	String PID = "pid";
+	String SPACE = " ";
+	String HANDLE ="handle";
 }

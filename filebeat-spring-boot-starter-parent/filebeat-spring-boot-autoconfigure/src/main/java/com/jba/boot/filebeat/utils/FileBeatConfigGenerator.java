@@ -31,6 +31,7 @@ import com.jba.boot.filebeat.model.FileBeatOutputPartitionHash;
 import com.jba.boot.filebeat.model.FileBeatOutputRedis;
 import com.jba.boot.filebeat.model.FileBeatOutputSSL;
 import com.jba.boot.filebeat.model.FileBeatXpackMonitoring;
+import com.jba.boot.filebeat.utils.OSInfo.OS;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -94,7 +95,7 @@ public class FileBeatConfigGenerator {
 			BeanUtils.copyProperties(properties.getOutputElasticSearch(), outputElasticSearch);
 			objFileBeatConfig.setOutputElasticSearch(outputElasticSearch);
 			if (null != properties.getOutputElasticSearch().getSsl()) {
-				FileBeatOutputSSL ssl = new FileBeatOutputSSL(); 
+				FileBeatOutputSSL ssl = new FileBeatOutputSSL();
 				BeanUtils.copyProperties(properties.getOutputElasticSearch().getSsl(), ssl);
 				outputElasticSearch.setSsl(ssl);
 			}
@@ -106,7 +107,7 @@ public class FileBeatConfigGenerator {
 			BeanUtils.copyProperties(properties.getOutputKafka(), outputKafka);
 			objFileBeatConfig.setOutputKafka(outputKafka);
 			if (null != properties.getOutputKafka().getSsl()) {
-				FileBeatOutputSSL ssl = new FileBeatOutputSSL(); 
+				FileBeatOutputSSL ssl = new FileBeatOutputSSL();
 				BeanUtils.copyProperties(properties.getOutputKafka().getSsl(), ssl);
 				outputKafka.setSsl(ssl);
 			}
@@ -128,7 +129,7 @@ public class FileBeatConfigGenerator {
 			BeanUtils.copyProperties(properties.getOutputLogstash(), outputLogstash);
 			objFileBeatConfig.setOutputLogstash(outputLogstash);
 			if (null != properties.getOutputLogstash().getSsl()) {
-				FileBeatOutputSSL ssl = new FileBeatOutputSSL(); 
+				FileBeatOutputSSL ssl = new FileBeatOutputSSL();
 				BeanUtils.copyProperties(properties.getOutputLogstash().getSsl(), ssl);
 				outputLogstash.setSsl(ssl);
 			}
@@ -140,7 +141,7 @@ public class FileBeatConfigGenerator {
 			BeanUtils.copyProperties(properties.getOutputRedis(), outputRedis);
 			objFileBeatConfig.setOutputRedis(outputRedis);
 			if (null != properties.getOutputRedis().getSsl()) {
-				FileBeatOutputSSL ssl = new FileBeatOutputSSL(); 
+				FileBeatOutputSSL ssl = new FileBeatOutputSSL();
 				BeanUtils.copyProperties(properties.getOutputRedis().getSsl(), ssl);
 				outputRedis.setSsl(ssl);
 			}
@@ -162,7 +163,7 @@ public class FileBeatConfigGenerator {
 				BeanUtils.copyProperties(properties.getOutputElasticSearch(), outputElasticSearch);
 				objFileBeatConfig.setOutputElasticSearch(outputElasticSearch);
 				if (null != properties.getOutputElasticSearch().getSsl()) {
-					FileBeatOutputSSL ssl = new FileBeatOutputSSL(); 
+					FileBeatOutputSSL ssl = new FileBeatOutputSSL();
 					BeanUtils.copyProperties(properties.getOutputElasticSearch().getSsl(), ssl);
 					outputElasticSearch.setSsl(ssl);
 				}
@@ -172,8 +173,8 @@ public class FileBeatConfigGenerator {
 		return objFileBeatConfig;
 	};
 
-	public void createFileBeatConfig() {
-		if (!isFileBeatConfigAlreadyPresent()) {
+	public void createFileBeatConfig(OS os) {
+		if (!isFileBeatConfigAlreadyPresent(os)) {
 			ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
 			mapper.setSerializationInclusion(Include.NON_NULL);
 			try {
@@ -182,42 +183,49 @@ public class FileBeatConfigGenerator {
 					String fileBeatYml = mapper.writeValueAsString(fileBeatConfig);
 					log.info("filbeat config file = {} ", fileBeatYml);
 					if (StringUtils.hasText(fileBeatYml)) {
-						Files.write(Paths.get(getFileBeatConfigPath()), fileBeatYml.getBytes());
+						Files.write(Paths.get(getFileBeatConfigPath(os)), fileBeatYml.getBytes());
 					}
 				}
 			} catch (IOException e) {
 				log.error(e.getMessage());
 			}
+		} else {
+			log.info(" filebeat config is already present !");
 		}
 	}
 
-	public String getFileBeatConfigPath() {
+	public String getFileBeatConfigPath(OS os) {
+		String configFilePath = null;
 		if (StringUtils.hasText(fileBeatStarterProperties.getFileBeatConfigDir())) {
-			File configDir = new File(getFileBeatConfigProvidedPath());
-			if (configDir.exists()) {
-				return getFileBeatConfigProvidedPath();
-			}
+			configFilePath = getFileBeatConfigProvidedPath();
+		} else {
+			configFilePath = getFileBeatConfigFullPath(os);
 		}
-		return getFileBeatConfigFullPath();
+		return configFilePath;
 	}
 
-	private boolean isFileBeatConfigAlreadyPresent() {
+	private boolean isFileBeatConfigAlreadyPresent(OS os) {
 		boolean isFileBeatConfigAlreadyPresent = false;
+		String configFilePath = null;
 		if (StringUtils.hasText(fileBeatStarterProperties.getFileBeatConfigDir())) {
-			File configDir = new File(getFileBeatConfigProvidedPath());
+			configFilePath = getFileBeatConfigProvidedPath();
+		}
+		if (StringUtils.hasText(configFilePath)) {
+			File configDir = new File(configFilePath);
 			if (configDir.exists()) {
-				log.info("Filebeat Config Path is already present :: ");
 				isFileBeatConfigAlreadyPresent = true;
 			}
 		}
+		log.info("Filebeat Config Path is already present or not :: {}", isFileBeatConfigAlreadyPresent);
 		return isFileBeatConfigAlreadyPresent;
 	}
 
-	private String getFileBeatConfigFullPath() {
-		StringBuilder configPath = new StringBuilder();
-		configPath.append(fileBeatDownloader.getInstallPath()).append(File.separator)
-				.append(FileBeatStarterConstants.FILEBEAT_CONF).append(File.separator)
-				.append(FileBeatStarterConstants.FILEBEAT_CONFIG_FILE);
+	private String getFileBeatConfigFullPath(OS os) {
+		StringBuilder configPath = new StringBuilder().append(fileBeatDownloader.getInstallPath(os));
+		if (os == OS.UNIX) {
+			configPath.append(File.separator).append(FileBeatStarterConstants.FILEBEAT_CONF);
+		}
+		configPath.append(File.separator).append(FileBeatStarterConstants.FILEBEAT_CONFIG_FILE);
 		log.info("Filebeat Config Path :: {}", configPath.toString());
 		return configPath.toString();
 	}

@@ -12,6 +12,8 @@ import org.apache.commons.compress.utils.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.jba.boot.filebeat.utils.OSInfo.OS;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Component
@@ -21,11 +23,11 @@ public class FileBeatInstaller {
 	@Autowired
 	private FileBeatDownloader fileBeatDownloader;
 
-	public void installFileBeat() throws FileNotFoundException, IOException {
-		if (!fileBeatDownloader.isFileBeatInstalled()) {
-			String installPath = fileBeatDownloader.getInstallBasePath();
-			try (TarArchiveInputStream fin = new TarArchiveInputStream(
-					new FileInputStream(fileBeatDownloader.getDownloadFileName()))) {
+	public void installFileBeat(OS os) throws FileNotFoundException, IOException {
+		if (!fileBeatDownloader.isFileBeatInstalled(os)) {
+			String installPath = fileBeatDownloader.getInstallBasePath(os);
+			String downloadFileName = fileBeatDownloader.getDownloadFileName(os);
+			try (TarArchiveInputStream fin = new TarArchiveInputStream(new FileInputStream(downloadFileName))) {
 				TarArchiveEntry entry;
 				while ((entry = fin.getNextTarEntry()) != null) {
 					if (entry.isDirectory()) {
@@ -39,11 +41,12 @@ public class FileBeatInstaller {
 					IOUtils.copy(fin, new FileOutputStream(curfile));
 				}
 			}
-			log.debug("Filebeat is installed!");
-			File downloadFile = new File(fileBeatDownloader.getDownloadFileName()); 
+			log.info("Filebeat is installed!");
+			File downloadFile = new File(downloadFileName);
 			downloadFile.delete();
+		} else {
+			log.info("Filebeat is already installed!");
 		}
 	}
-
 
 }

@@ -11,6 +11,7 @@ import com.jba.boot.filebeat.utils.FileBeatDownloader;
 import com.jba.boot.filebeat.utils.FileBeatInstaller;
 import com.jba.boot.filebeat.utils.FileBeatProcessStarter;
 import com.jba.boot.filebeat.utils.OSInfo;
+import com.jba.boot.filebeat.utils.OSInfo.OS;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,19 +38,17 @@ public class FileBeatStarterTemplate {
 	public FileBeatProcessContext startFileBeat() {
 		FileBeatProcessContext fileBeatProcessContext = new FileBeatProcessContext();
 		try {
-			if (OSInfo.isUnix()) {
-				fileBeatDownloader.downloadFileBeat();
-				fileBeatInstaller.installFileBeat();
-				fileBeatConfigGenerator.createFileBeatConfig();
-				fileBeatProcessContext.setProcessId(fileBeatProcessStarter.startFileBeat());
+			OS os = OSInfo.getOs();
+			if (OSInfo.isUnix() || OSInfo.isWindows() || OSInfo.isMac()) {
+				fileBeatDownloader.downloadFileBeat(os);
+				fileBeatInstaller.installFileBeat(os);
+				fileBeatConfigGenerator.createFileBeatConfig(os);
+				fileBeatProcessContext.setProcessId(fileBeatProcessStarter.startFileBeat(os));
 				String message = String.format("Filebeat Stated with pid = %s and processing the log file %s",
 						fileBeatProcessContext.getProcessId(), fileBeatProcessContext.getLogFile());
 				fileBeatProcessContext.setMessage(message);
 			} else {
-				log.info("This OS is not supported for this starter {}", OSInfo.getOs());
-				//TODO :: testing :: need to remove later
-				fileBeatConfigGenerator.createFileBeatConfig();
-				//TODO :: End
+				log.info("This OS is not supported for this starter {}", os);
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage());
