@@ -196,7 +196,7 @@ public class FileBeatConfigGenerator {
 
 	public String getFileBeatConfigPath(OS os) {
 		String configFilePath = null;
-		if (StringUtils.hasText(fileBeatStarterProperties.getFileBeatConfigDir())) {
+		if ((os == OS.UNIX || os == OS.MAC) && StringUtils.hasText(fileBeatStarterProperties.getFileBeatConfigDir())) {
 			configFilePath = getFileBeatConfigProvidedPath();
 		} else {
 			configFilePath = getFileBeatConfigFullPath(os);

@@ -28,10 +28,9 @@ public class FileBeatProcessStarter {
 	public String startFileBeat(OS os) throws FileNotFoundException, IOException {
 		String pid = null;
 		try {
-			StringBuilder fileBeatExecuatble = new StringBuilder().append(fileBeatDownloader.getInstallPath(os))
-					.append(File.separator);
 			if (os == OS.UNIX || os == OS.MAC) {
-				fileBeatExecuatble.append(FileBeatStarterConstants.FILEBEAT_BIN).append(File.separator)
+				StringBuilder fileBeatExecuatble = new StringBuilder().append(fileBeatDownloader.getInstallPath(os))
+						.append(File.separator).append(FileBeatStarterConstants.FILEBEAT_BIN).append(File.separator)
 						.append(FileBeatStarterConstants.FILEBEAT_EXE)
 						.append(FileBeatStarterConstants.FILEBEAT_PARAMETER)
 						.append(fileBeatConfigGenerator.getFileBeatConfigPath(os))
@@ -41,8 +40,10 @@ public class FileBeatProcessStarter {
 				pid = getPidOfProcess(process);
 				log.info("Filebeat is started! pid = {}", pid);
 			} else if (os == OS.WINDOWS) {
-				fileBeatExecuatble.append(FileBeatStarterConstants.FILEBEAT_WINDOWS_EXE).append(FileBeatStarterConstants.SPACE)
-						.append(fileBeatConfigGenerator.getFileBeatConfigPath(os));
+				StringBuilder fileBeatExecuatble = new StringBuilder()
+						.append(FileBeatStarterConstants.FILEBEAT_WINDOWS_CMD).append(FileBeatStarterConstants.SPACE)
+						.append(fileBeatDownloader.getInstallPath(os)).append(File.separator)
+						.append(FileBeatStarterConstants.FILEBEAT_WINDOWS_EXE);
 				log.info("Filebeat Run Command :: {}", fileBeatExecuatble.toString());
 				Process process = Runtime.getRuntime().exec(fileBeatExecuatble.toString(), null,
 						new File(fileBeatDownloader.getInstallBasePath(os)));
