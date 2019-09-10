@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
  * @author Jude
  *
  */
-public abstract class BaseContentController {
+public abstract class BaseSampleAppController {
 	public ResponseEntity<?> success() {
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
