@@ -3,6 +3,7 @@
  */
 package com.jba.boot.filebeat.autoconfigure;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -20,7 +21,7 @@ import lombok.Data;
 @Data
 @Validated
 public class FileBeatProperties {
-	private FileBeatInputsProperties inputs;
+	private List<FileBeatInputsProperties> inputs;
 	private Map<String, String> configModules;
 	private Map<String, String> templateSettings;
 	private Map<String, String> setupKibana;

@@ -29,7 +29,7 @@ public class FileBeatOutputKafka {
 	private List<String> hosts;
 	@JsonProperty("topic")
 	private String topic;
-	@JsonProperty("partition")
+	@JsonProperty("partition.round_robin")
 	private FileBeatOutputPartitionHash partition;
 	private String key;
 	@JsonProperty("username")

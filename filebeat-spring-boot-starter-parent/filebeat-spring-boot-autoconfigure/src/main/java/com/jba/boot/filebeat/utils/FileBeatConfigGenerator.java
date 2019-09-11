@@ -7,16 +7,20 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.jba.boot.filebeat.autoconfigure.FileBeatInputsProperties;
 import com.jba.boot.filebeat.autoconfigure.FileBeatProperties;
 import com.jba.boot.filebeat.autoconfigure.FileBeatStarterProperties;
 import com.jba.boot.filebeat.model.FileBeatConfig;
@@ -59,10 +63,15 @@ public class FileBeatConfigGenerator {
 		FileBeatConfig objFileBeatConfig = new FileBeatConfig();
 		BeanUtils.copyProperties(properties, objFileBeatConfig);
 		// Input
-		if (null != properties.getInputs()) {
-			FileBeatInputs inputs = new FileBeatInputs();
-			BeanUtils.copyProperties(properties.getInputs(), inputs);
-			objFileBeatConfig.setInputs(inputs);
+		if (!CollectionUtils.isEmpty(properties.getInputs())) {
+			List<FileBeatInputsProperties> inputs = properties.getInputs();
+			List<FileBeatInputs> inputsList = new ArrayList<>();
+			for (FileBeatInputsProperties fileBeatInputsProperties : inputs) {
+				FileBeatInputs inputsOut = new FileBeatInputs();
+				BeanUtils.copyProperties(fileBeatInputsProperties, inputsOut);
+				inputsList.add(inputsOut);
+			}
+			objFileBeatConfig.setInputs(inputsList);
 		}
 
 		// outputConsole
