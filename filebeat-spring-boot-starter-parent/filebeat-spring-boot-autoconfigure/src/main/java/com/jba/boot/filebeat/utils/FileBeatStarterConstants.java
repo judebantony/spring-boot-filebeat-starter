@@ -13,7 +13,12 @@ public interface FileBeatStarterConstants {
 	String FILEBEAT_BIN = "bin";
 	String FILEBEAT_CONF = "conf";
 	String FILEBEAT_EXE = "filebeat";
+	String FILEBEAT_WINDOWS_CMDEXE ="cmd";
 	String FILEBEAT_WINDOWS_CMD ="cmd /c start";
+	String FILEBEAT_WINDOWS_CMD_C ="/c";
+	String FILEBEAT_WINDOWS_CMD_START ="start";
+	String FILEBEAT_WINDOWS_CMD_CD ="cd";
+	String FILEBEAT_WINDOWS_CMD_AND ="&&";
 	String FILEBEAT_WINDOWS_EXE = "filebeat.exe";
 	String FILEBEAT_CONFIG_FILE = "filebeat.yml";
 	String FILEBEAT_PARAMETER = " -c ";

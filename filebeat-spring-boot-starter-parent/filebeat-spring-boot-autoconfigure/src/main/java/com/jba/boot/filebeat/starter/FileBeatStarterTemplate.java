@@ -44,16 +44,14 @@ public class FileBeatStarterTemplate {
 				fileBeatInstaller.installFileBeat(os);
 				fileBeatConfigGenerator.createFileBeatConfig(os);
 				fileBeatProcessContext.setProcessId(fileBeatProcessStarter.startFileBeat(os));
-				String message = String.format("Filebeat Stated with pid = %s and processing the log file %s",
-						fileBeatProcessContext.getProcessId(), fileBeatProcessContext.getLogFile());
-				fileBeatProcessContext.setMessage(message);
+				fileBeatProcessContext.setMessage(String.format("Filebeat Stated with pid = %s and processing the log file %s",
+						fileBeatProcessContext.getProcessId(), fileBeatProcessContext.getLogFile()));
 			} else {
 				log.info("This OS is not supported for this starter {}", os);
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage());
-			String message = String.format("Fail to start or install Filebeat %s", e.getMessage());
-			fileBeatProcessContext.setMessage(message);
+			fileBeatProcessContext.setMessage(String.format("Fail to start or install Filebeat %s", e.getMessage()));
 		}
 		return fileBeatProcessContext;
 	}
