@@ -39,15 +39,18 @@ public class FileBeatStarterTemplate {
 		FileBeatProcessContext fileBeatProcessContext = new FileBeatProcessContext();
 		try {
 			OS os = OSInfo.getOs();
-			if (OSInfo.isUnix() || OSInfo.isWindows() || OSInfo.isMac()) {
+			if (OSInfo.isSupported()) {
 				fileBeatDownloader.downloadFileBeat(os);
 				fileBeatInstaller.installFileBeat(os);
 				fileBeatConfigGenerator.createFileBeatConfig(os);
 				fileBeatProcessContext.setProcessId(fileBeatProcessStarter.startFileBeat(os));
-				fileBeatProcessContext.setMessage(String.format("Filebeat Stated with pid = %s and processing the log file %s",
-						fileBeatProcessContext.getProcessId(), fileBeatProcessContext.getLogFile()));
+				fileBeatProcessContext
+						.setMessage(String.format("Filebeat Stated with pid = %s and processing the log file %s",
+								fileBeatProcessContext.getProcessId(), fileBeatProcessContext.getLogFile()));
 			} else {
-				log.info("This OS is not supported for this starter {}", os);
+				log.info("This OS is not supported for this starter {}", os.getVersion());
+				fileBeatProcessContext
+						.setMessage(String.format("This OS is not supported for this starter %s", os.getVersion()));
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage());

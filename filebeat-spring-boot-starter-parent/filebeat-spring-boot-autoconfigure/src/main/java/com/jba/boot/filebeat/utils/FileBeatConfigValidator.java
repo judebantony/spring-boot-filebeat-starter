@@ -19,7 +19,6 @@ import com.jba.boot.filebeat.model.FileBeatConfig;
 public class FileBeatConfigValidator {
 
 	public boolean validateFileBeatConfig(@Valid FileBeatConfig fileBeatConfig) {
-		// TODO:: do something
 		return true;
 	}
 }

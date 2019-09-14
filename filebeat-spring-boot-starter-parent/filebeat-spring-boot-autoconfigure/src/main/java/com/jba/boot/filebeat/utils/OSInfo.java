@@ -11,7 +11,7 @@ import java.util.Locale;
  *
  */
 public final class OSInfo {
-	
+
 	public enum OS {
 		WINDOWS, UNIX, SOLARIS, MAC, POSIX_UNIX, OTHER;
 
@@ -75,6 +75,10 @@ public final class OSInfo {
 
 	public static boolean isSolaris() {
 		return (getOs() == OS.SOLARIS);
+	}
+
+	public static boolean isSupported() {
+		return (OSInfo.isUnix() || OSInfo.isWindows() || OSInfo.isMac()) ? true : false;
 	}
 
 }
