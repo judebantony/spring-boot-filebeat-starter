@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${project.build.finalName}
+  labels:
+    app: ${project.build.finalName}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ${project.build.finalName}
+  strategy:
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 1
+      type: RollingUpdate      
+  template:
+    metadata:
+      labels:
+        app: ${project.build.finalName}
+    spec:
+      containers:
+      - imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5050
+      imagePullSecrets:
+        - name: judebantonycred
