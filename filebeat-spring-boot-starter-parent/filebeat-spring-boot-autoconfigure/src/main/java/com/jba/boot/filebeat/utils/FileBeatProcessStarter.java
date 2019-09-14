@@ -49,26 +49,10 @@ public class FileBeatProcessStarter {
 						.append(FileBeatStarterConstants.SPACE)
 						.append(FileBeatStarterConstants.FILEBEAT_WINDOWS_CMD_START)
 						.append(FileBeatStarterConstants.SPACE).append(FileBeatStarterConstants.FILEBEAT_WINDOWS_EXE);
-				/*
-				 * ProcessBuilder builder = new
-				 * ProcessBuilder(FileBeatStarterConstants.FILEBEAT_WINDOWS_CMD,
-				 * FileBeatStarterConstants.FILEBEAT_WINDOWS_CMD_C,
-				 * fileBeatExecuatble.toString());
-				 */ log.info("Filebeat Run Command :: {}", fileBeatExecuatble.toString());
-				// Process process = builder.start();
+				log.info("Filebeat Run Command :: {}", fileBeatExecuatble.toString());
 
 				Process process = Runtime.getRuntime().exec(fileBeatExecuatble.toString(), null,
 						new File(fileBeatDownloader.getInstallBasePath(os)));
-
-				/*
-				 * StringBuilder fileBeatExecuatble = new StringBuilder()
-				 * .append(FileBeatStarterConstants.FILEBEAT_WINDOWS_CMD).append(
-				 * FileBeatStarterConstants.SPACE)
-				 * .append(FileBeatStarterConstants.FILEBEAT_WINDOWS_EXE);
-				 * log.info("Filebeat Run Command :: {}", fileBeatExecuatble.toString());
-				 * Process process = Runtime.getRuntime().exec(fileBeatExecuatble.toString(),
-				 * null, new File(fileBeatDownloader.getInstallBasePath(os)));
-				 */
 				pid = getPidOfProcess(process);
 				log.info("Filebeat is started! pid = {}", pid);
 			}

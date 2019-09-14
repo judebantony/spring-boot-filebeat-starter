@@ -13,6 +13,31 @@
 	<name>filebeat-spring-boot-starter-sample-app</name>
 	<description>Sample app for Filebeat Spring Boot starter project</description>
 
+	<profiles>
+		<profile>
+			<id>windows</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<spring.profiles.active>windows</spring.profiles.active>
+			</properties>
+		</profile>
+		<profile>
+			<id>unix</id>
+			<properties>
+				<spring.profiles.active>unix</spring.profiles.active>
+			</properties>
+		</profile>
+		<profile>
+			<id>docker</id>
+			<properties>
+				<spring.profiles.active>docker</spring.profiles.active>
+			</properties>
+		</profile>
+		
+	</profiles>
+
 	<properties>
 		<asciidoctor-maven-plugin.version>1.5.3</asciidoctor-maven-plugin.version>
 		<frontend-maven-plugin.version>1.7.6</frontend-maven-plugin.version>
@@ -64,7 +89,7 @@
 			<artifactId>filebeat-spring-boot-starter</artifactId>
 			<version>${filebeat-spring-boot-starter.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -82,7 +107,7 @@
 			<version>${springfox-swagger2.version}</version>
 			<scope>compile</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -101,6 +126,12 @@
 	</dependencies>
 
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -299,6 +330,11 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<profiles>
+						<profile>${spring.profiles.active}</profile>
+					</profiles>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
