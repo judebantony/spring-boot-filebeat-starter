@@ -1,0 +1,20 @@
+pipeline {
+	agent any
+	options { disableConcurrentBuilds() }
+	stages {
+		stage ('delete: filebeatstarter sampleapp deployments') {
+		 	steps {
+		 		sh 'dos2unix deleteDeployments.sh'
+		 		sh 'chmod 755 deleteDeployments.sh'
+				sh './deleteDeployments.sh'
+			}
+		}
+		stage ('build: filebeatstarter') {
+		 	steps {
+		 		sh 'dos2unix build.sh'
+		 		sh 'chmod 755 build.sh'
+				sh './build.sh'
+			}
+		}
+	}
+}

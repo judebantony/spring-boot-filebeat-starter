@@ -10,5 +10,5 @@ VOLUME /data
 WORKDIR /tmp
 
 ADD target/filebeat-starter-sampleapp.jar /tmp/
-ENTRYPOINT [ "/tmp/startSampleApp.sh"]
-EXPOSE 8761
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/tmp/filebeat-starter-sampleapp.jar"]
+EXPOSE 5050

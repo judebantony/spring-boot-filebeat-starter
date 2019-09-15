@@ -1,0 +1,1 @@
+kubectl delete deployment,service filebeat-starter-sampleapp || echo 'Nothing to delete.' 

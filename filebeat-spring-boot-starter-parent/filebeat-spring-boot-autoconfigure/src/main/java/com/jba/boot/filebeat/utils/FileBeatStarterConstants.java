@@ -23,6 +23,12 @@ public interface FileBeatStarterConstants {
 	String FILEBEAT_CONFIG_FILE = "filebeat.yml";
 	String FILEBEAT_PARAMETER = " -c ";
 	String FILEBEAT_DEMON_PARAMETER = " -e ";
+	String FILEBEAT_PIPE_PARAMETER = " > ";
+	String FILEBEAT_DEMON_PARAMETER_AND = " &";
+	String FILEBEAT_COMMAND_PARAMETER_AND = " && ";
+	String FILEBEAT_CHMOD_EXE = "chmod -R 700 ";
+	String FILEBEAT_CHMOD_WRITE = "chmod -R go-w ";
+	String FILEBEAT_LOG_FILE = "filebeat-logs";
 	String UNIX_PROCESS = "java.lang.UNIXProcess";
 	String WINDOWS_PROCESS = "java.lang.Win32Process";
 	String PROCESS ="java.lang.ProcessImpl";
